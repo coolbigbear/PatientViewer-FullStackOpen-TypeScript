@@ -8,30 +8,27 @@ interface exerciseCalculatorResult {
 	average: number;
 }
 
-type ratingDescription =
-	| "If I\'m honest it needs work"
-	| 'Not too bad but could be better'
-	| "You're doing great!";
+type ratingDescription = "If I'm honest it needs work" | 'Not too bad but could be better' | "You're doing great!";
 
 const calculateExercises = (dailyExerciseHours: Array<number>, targetHours: number): exerciseCalculatorResult | any => {
-    let rating = 1;
-    let sum = 0;
-    let success = false;
-    let ratingDescription = 'If I\'m honest it needs work'
+	let rating = 1;
+	let sum = 0;
+	let success = false;
+	let ratingDescription = "If I'm honest it needs work";
 	for (let i = 0; i < dailyExerciseHours.length; i++) {
 		sum += dailyExerciseHours[i];
-    }
-    
-    const average = sum / dailyExerciseHours.length;
-    if (average > targetHours) success = true; 
-    
-    if (average > targetHours) {
-        rating = 3;
-        ratingDescription = 'You\'re doing great!';
-    } else if (average > targetHours * 0.9) {
-        rating = 2;
-        ratingDescription = 'Not too bad but could be better';
-    }
+	}
+
+	const average = sum / dailyExerciseHours.length;
+	if (average > targetHours) success = true;
+
+	if (average > targetHours) {
+		rating = 3;
+		ratingDescription = "You're doing great!";
+	} else if (average > targetHours * 0.9) {
+		rating = 2;
+		ratingDescription = 'Not too bad but could be better';
+	}
 
 	return {
 		periodLength: dailyExerciseHours.length,
@@ -44,4 +41,33 @@ const calculateExercises = (dailyExerciseHours: Array<number>, targetHours: numb
 	};
 };
 
-console.log(calculateExercises([0, 0, 2, 4.5, 0, 3, 1], 2));
+// console.log(calculateExercises([0, 0, 2, 4.5, 0, 3, 1], 2));
+
+try {
+
+    const inputArray: Array<number> = [];
+    // console.log(process.argv.length);
+    
+    if (process.argv.length < 4) throw new Error('Not enough arguments');
+
+    process.argv.shift(); // Remove first 2 arguments;
+    process.argv.shift(); 
+	process.argv.forEach((element, index) => {
+		if (isNaN(Number(element))) {
+			throw new Error(`Value: ${element}, at position: ${index + 1}, is not a number!`);
+        } else {
+            inputArray[index] = Number(element);
+        }
+    });
+    
+    const target = inputArray.shift();
+
+    console.log(calculateExercises(inputArray, target))
+
+} catch (error: unknown) {
+	let errorMessage = 'Something bad happened.';
+	if (error instanceof Error) {
+		errorMessage += ' Error: ' + error.message;
+	}
+	console.log(errorMessage);
+}

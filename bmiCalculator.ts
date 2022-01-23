@@ -27,6 +27,28 @@ const calculateBmi = (height: number, weight: number): String => {
 
 }
 
-console.log(calculateBmi(180, 74))
+// console.log(calculateBmi(180, 74))
 
+try {
+	// console.log(process.argv.length);
+
+	if (process.argv.length < 4) throw new Error('Not enough arguments');
+	if (process.argv.length > 4) throw new Error('Too many arguments');
+
+	process.argv.shift(); // Remove first 2 arguments;
+	process.argv.shift();
+	process.argv.forEach((element, index) => {
+		if (isNaN(Number(element))) {
+			throw new Error(`Value: ${element}, at position: ${index + 1}, is not a number!`);
+		}
+    });
+    
+	console.log(calculateBmi(Number(process.argv[0]), Number(process.argv[1])));
+} catch (error: unknown) {
+	let errorMessage = 'Something bad happened.';
+	if (error instanceof Error) {
+		errorMessage += ' Error: ' + error.message;
+	}
+	console.log(errorMessage);
+}
 
