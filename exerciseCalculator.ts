@@ -10,7 +10,7 @@ interface exerciseCalculatorResult {
 
 type ratingDescription = "If I'm honest it needs work" | 'Not too bad but could be better' | "You're doing great!";
 
-const calculateExercises = (dailyExerciseHours: Array<number>, targetHours: number): exerciseCalculatorResult => {
+export const calculateExercises = (dailyExerciseHours: Array<number>, targetHours: number): exerciseCalculatorResult => {
 	let rating = 1;
 	let sum = 0;
 	let success = false;
