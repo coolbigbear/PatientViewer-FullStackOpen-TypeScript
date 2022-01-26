@@ -10,11 +10,11 @@ interface exerciseCalculatorResult {
 
 type ratingDescription = "If I'm honest it needs work" | 'Not too bad but could be better' | "You're doing great!";
 
-const calculateExercises = (dailyExerciseHours: Array<number>, targetHours: number): exerciseCalculatorResult | any => {
+const calculateExercises = (dailyExerciseHours: Array<number>, targetHours: number): exerciseCalculatorResult => {
 	let rating = 1;
 	let sum = 0;
 	let success = false;
-	let ratingDescription = "If I'm honest it needs work";
+	let ratingDescription: ratingDescription = "If I'm honest it needs work";
 	for (let i = 0; i < dailyExerciseHours.length; i++) {
 		sum += dailyExerciseHours[i];
 	}
@@ -60,9 +60,10 @@ try {
         }
     });
     
-    const target = inputArray.shift();
+	const target: number = inputArray[0];
+	inputArray.shift();
 
-    console.log(calculateExercises(inputArray, target))
+	console.log(calculateExercises(inputArray, target));
 
 } catch (error: unknown) {
 	let errorMessage = 'Something bad happened.';
