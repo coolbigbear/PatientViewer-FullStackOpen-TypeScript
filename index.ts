@@ -9,7 +9,7 @@ app.get('/hello', (_req, res) => {
 app.get('/bmi', (req, res) => {
 	let response = null;
 	const errorResponse = {
-		error: 'malformatted parameters',
+		error: 'malformed parameters',
 	};
 	const weight = req.query.weight;
 	const height = req.query.height;
