@@ -1,8 +1,7 @@
-import { Gender, NewPatientEntry, NonSensitivePatientEntry, PatientEntry } from '../types';
+import { Entry, EntryTypes, Gender, NewEntry, NewPatientEntry, NonSensitivePatientEntry, PatientEntry } from '../types';
 import { v4 as uuid } from 'uuid';
 
-
-const patients: PatientEntry[] = [
+let patients: PatientEntry[] = [
 	{
 		id: 'd2773336-f723-11e9-8f0b-362b9e155667',
 		name: 'John McClane',
@@ -14,7 +13,7 @@ const patients: PatientEntry[] = [
 			{
 				id: 'd811e46d-70b3-4d90-b090-4535c7cf8fb1',
 				date: '2015-01-02',
-				type: 'Hospital',
+				type: EntryTypes.HOSPITAL,
 				specialist: 'MD House',
 				diagnosisCodes: ['S62.5'],
 				description: "Healing time appr. 2 weeks. patient doesn't remember how he got the injury.",
@@ -36,7 +35,7 @@ const patients: PatientEntry[] = [
 			{
 				id: 'fcd59fa6-c4b4-4fec-ac4d-df4fe1f85f62',
 				date: '2019-08-05',
-				type: 'OccupationalHealthcare',
+				type: EntryTypes.OCCUPATIONAL_HEALTHCARE,
 				specialist: 'MD House',
 				employerName: 'HyPD',
 				diagnosisCodes: ['Z57.1', 'Z74.3', 'M51.2'],
@@ -70,7 +69,7 @@ const patients: PatientEntry[] = [
 				id: 'b4f4eca1-2aa7-4b13-9a18-4a5535c3c8da',
 				date: '2019-10-20',
 				specialist: 'MD House',
-				type: 'HealthCheck',
+				type: EntryTypes.HEALTH_CHECK,
 				description: 'Yearly control visit. Cholesterol levels back to normal.',
 				healthCheckRating: 0,
 			},
@@ -78,7 +77,7 @@ const patients: PatientEntry[] = [
 				id: 'fcd59fa6-c4b4-4fec-ac4d-df4fe1f85f62',
 				date: '2019-09-10',
 				specialist: 'MD House',
-				type: 'OccupationalHealthcare',
+				type: EntryTypes.OCCUPATIONAL_HEALTHCARE,
 				employerName: 'FBI',
 				description: 'Prescriptions renewed.',
 			},
@@ -86,7 +85,7 @@ const patients: PatientEntry[] = [
 				id: '37be178f-a432-4ba4-aac2-f86810e36a15',
 				date: '2018-10-05',
 				specialist: 'MD House',
-				type: 'HealthCheck',
+				type: EntryTypes.HEALTH_CHECK,
 				description: 'Yearly control visit. Due to high cholesterol levels recommended to eat more vegetables.',
 				healthCheckRating: 1,
 			},
@@ -104,19 +103,20 @@ const patients: PatientEntry[] = [
 				id: '54a8746e-34c4-4cf4-bf72-bfecd039be9a',
 				date: '2019-05-01',
 				specialist: 'Dr Byte House',
-				type: 'HealthCheck',
+				type: EntryTypes.HEALTH_CHECK,
 				description: 'Digital overdose, very bytestatic. Otherwise healthy.',
 				healthCheckRating: 0,
 			},
 		],
 	},
 ];
+
 const getEntries = (): Array<PatientEntry> => {
 	return patients;
 };
 
 const getEntryById = (id: string): PatientEntry | undefined => {
-	return patients.find(patient => patient.id == id);
+	return patients.find((patient) => patient.id == id);
 };
 
 const getNonSensitiveEntries = (): Array<NonSensitivePatientEntry> => {
@@ -126,11 +126,11 @@ const getNonSensitiveEntries = (): Array<NonSensitivePatientEntry> => {
 		dateOfBirth,
 		gender,
 		occupation,
-		entries
+		entries,
 	}));
 };
 
-const addEntry = (entry: NewPatientEntry): PatientEntry => {
+const addPatientEntry = (entry: NewPatientEntry): PatientEntry => {
 	const newPatientEntry = {
 		id: uuid(),
 		...entry,
@@ -140,9 +140,19 @@ const addEntry = (entry: NewPatientEntry): PatientEntry => {
 	return newPatientEntry;
 };
 
+const addEntryToPatient = (entry: NewEntry, patient: PatientEntry): PatientEntry => {
+	const allEntries: Entry = { ...entry, id: uuid() };
+	const changedPatient: PatientEntry = { ...patient, entries: patient.entries.concat(allEntries) };
+	
+	patients = patients.map((patient) => (patient.id === changedPatient.id ? changedPatient : patient));
+
+	return changedPatient;
+};
+
 export default {
 	getEntries,
-	addEntry,
+	addPatientEntry,
+	addEntryToPatient,
 	getEntryById,
 	getNonSensitiveEntries,
 };
