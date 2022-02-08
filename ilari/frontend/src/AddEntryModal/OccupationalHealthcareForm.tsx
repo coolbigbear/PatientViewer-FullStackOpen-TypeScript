@@ -26,6 +26,7 @@ export const OccupationalHealthcareForm = ({ onSubmit, onCancel, diagnoses }: Su
 			validate={(values) => {
 				const requiredError = 'Field is required';
 				const invalidDateError = 'Invalid date';
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				const errors: { [field: string]: any } = {};
 				errors.sick_leave = {};
 				if (!values.description) {
