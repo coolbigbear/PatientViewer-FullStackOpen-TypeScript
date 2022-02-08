@@ -10,6 +10,7 @@ export const OccupationalHealthcareCard = ({ entry }: { entry: OccupationalHealt
 					<Card.Header>
 						{entry.date}
 						<Icon name="stethoscope"></Icon>
+						{entry.employerName}
 					</Card.Header>
 					<Card.Content>{entry.description}</Card.Content>
                 </Card.Content>

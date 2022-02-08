@@ -63,7 +63,7 @@ const parseType = (type: any, variable: string): EntryTypes => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const parseDiagnosisCodes = (diagnosisCodes: any, variable: string): Array<DiagnoseEntry['code']> => {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-	if (!diagnosisCodes || !(diagnosisCodes instanceof Array) || diagnosisCodes.some(isNaN)) {
+	if (!diagnosisCodes || !(diagnosisCodes instanceof Array) || !diagnosisCodes.some(isNaN)) {
 		throw new Error(`Incorrect or missing ${variable}`);
 	}
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-return
