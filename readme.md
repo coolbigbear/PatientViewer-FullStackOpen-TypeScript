@@ -16,7 +16,6 @@ npm install
 npm run start
 ```
 
-# Usage
 ### Setup of backend
 ```bash
 npm install
